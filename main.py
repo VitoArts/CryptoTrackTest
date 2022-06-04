@@ -3,8 +3,10 @@ import pandas as pd
 import plotly.graph_objects as go
 cg = CoinGeckoAPI()
 
+days = 50
+
 if __name__ == '__main__':
-    bitcoin_data = cg.get_coin_market_chart_by_id(id="bitcoin", vs_currency='usd', days=50)
+    bitcoin_data = cg.get_coin_market_chart_by_id(id="bitcoin", vs_currency='usd', days=days)
     data = pd.DataFrame(bitcoin_data['prices'], columns=['TimeStamp', 'Price'])
 
     data['Date'] = pd.to_datetime(data['TimeStamp'], unit='ms')
@@ -18,6 +20,6 @@ if __name__ == '__main__':
 
     fig.update_layout(xaxis_rangeslider_visible=False,
                       xaxis_title='Date', yaxis_title='Price (USD$)',
-                      title='Bitcoin Candlestick chart over past 30 Days')
+                      title='Bitcoin Candlestick chart over past '+ str(days) +' Days')
 
     fig.show(filename='bitcoin_candlestick_graph.html')
